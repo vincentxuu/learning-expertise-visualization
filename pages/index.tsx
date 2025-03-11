@@ -25,7 +25,7 @@ const CardContent = ({ children }) => (
   </div>
 );
 
-const Badge = ({ children, variant, style, onClick }) => {
+const Badge = ({ children, variant, style, onClick, className }) => {
   const baseClass = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium";
   const variantClass = variant === "outline" 
     ? "bg-transparent border" 
@@ -35,7 +35,7 @@ const Badge = ({ children, variant, style, onClick }) => {
   
   return (
     <span 
-      className={`${baseClass} ${variantClass} ${onClick ? 'cursor-pointer' : ''}`} 
+      className={`${baseClass} ${variantClass} ${className || ''} ${onClick ? 'cursor-pointer' : ''}`} 
       style={style}
       onClick={onClick}
     >
@@ -418,8 +418,10 @@ const LearningExpertiseVisualization = () => {
                 variant="outline"
                 style={{ 
                   borderColor: getNodeById(selectedNode).color,
-                  color: getNodeById(selectedNode).color
+                  color: getNodeById(selectedNode).color,
                 }}
+                onClick={() => console.log(`Skill type: ${getNodeById(selectedNode).type}`)}
+                className="text-xs"
               >
                 {getNodeById(selectedNode).type === 'core' ? 'Core Skill' : 'Specialized Skill'}
               </Badge>
@@ -435,6 +437,8 @@ const LearningExpertiseVisualization = () => {
               {getNodeById(selectedNode).relatedSkills.map((relatedId) => (
                 <Badge 
                   key={relatedId}
+                  variant="outline"
+                  className="text-xs"
                   style={{ 
                     backgroundColor: `${getNodeById(relatedId).color}15`, 
                     color: getNodeById(relatedId).color,
@@ -497,7 +501,7 @@ const LearningExpertiseVisualization = () => {
       )}
       
       {/* Ecosystem Insights */}
-      <Card>
+      <Card className="mb-6">
         <CardHeader>
           <CardTitle>Learning Design Insights</CardTitle>
         </CardHeader>
